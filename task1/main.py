@@ -24,10 +24,7 @@ for i in range(len(import_data)):
     slope, intercept = np.polyfit(t, values, 1)
     trend = intercept + slope * t
 
-    r2 = 1 - (
-        ((values - trend) ** 2).sum()
-        / ((values - values.mean()) ** 2).sum()
-    )
+    r2 = 1 - (((values - trend) ** 2).sum()/ ((values - values.mean()) ** 2).sum())
 
     plt.figure(figsize=(10, 5))
     plt.plot(years, values, label="Значения")
@@ -47,10 +44,7 @@ for i in range(len(export_data)):
     slope, intercept = np.polyfit(t, values, 1)
     trend = intercept + slope * t
 
-    r2 = 1 - (
-        ((values - trend) ** 2).sum()
-        / ((values - values.mean()) ** 2).sum()
-    )
+    r2 = 1 - (((values - trend) ** 2).sum()/ ((values - values.mean()) ** 2).sum())
 
     plt.figure(figsize=(10, 5))
     plt.plot(years, values, label="Значения")
@@ -65,15 +59,36 @@ for i in range(len(export_data)):
     plt.close()
 
 pairs = [(4, 4), (2, 11), (11, 8), (12, 9)]
+os.makedirs("task1/plots/correlation", exist_ok=True)
 
-for i, j in pairs:
-    x = import_data.iloc[i, 1:].astype(float)
-    y = export_data.iloc[j, 1:].astype(float)
+for number, (i, j) in enumerate(pairs):
+    x = import_data.iloc[i, 1:].astype(float).to_numpy()
+    y = export_data.iloc[j, 1:].astype(float).to_numpy()
 
     r, p = pearsonr(x, y)
 
-    print(
-        import_data.iloc[i, 0],
-        "r =", round(r, 2),
-        "p =", round(p, 4)
+    slope, intercept = np.polyfit(x, y, 1)
+    order = np.argsort(x)
+
+    plt.figure(figsize=(8, 5))
+    plt.scatter(x, y, label="Значения")
+    plt.plot(
+        x[order],
+        (intercept + slope * x)[order],
+        "--",
+        label="Линейный тренд"
     )
+
+    plt.title(
+        f"{import_data.iloc[i, 0]}\nr = {r:.2f}, p = {p:.4f}"
+    )
+    plt.xlabel("Импорт")
+    plt.ylabel("Экспорт")
+    plt.legend()
+    plt.grid(alpha=0.3)
+    plt.tight_layout()
+
+    plt.savefig(f"task1/plots/correlation/correlation_{number}.png", dpi=150)
+    plt.close()
+
+    print(import_data.iloc[i, 0],"r =", round(r, 2),"p =", round(p, 4))
