@@ -1,5 +1,6 @@
 import pandas as pd
 import matplotlib.pyplot as plt
+from scipy.stats import pearsonr
 
 import os
 import numpy as np
@@ -62,3 +63,17 @@ for i in range(len(export_data)):
 
     plt.savefig(f"task1/plots/linear/export/export_{i}.png", dpi=150)
     plt.close()
+
+pairs = [(4, 4), (2, 11), (11, 8), (12, 9)]
+
+for i, j in pairs:
+    x = import_data.iloc[i, 1:].astype(float)
+    y = export_data.iloc[j, 1:].astype(float)
+
+    r, p = pearsonr(x, y)
+
+    print(
+        import_data.iloc[i, 0],
+        "r =", round(r, 2),
+        "p =", round(p, 4)
+    )
