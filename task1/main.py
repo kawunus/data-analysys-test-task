@@ -72,16 +72,9 @@ for number, (i, j) in enumerate(pairs):
 
     plt.figure(figsize=(8, 5))
     plt.scatter(x, y, label="Значения")
-    plt.plot(
-        x[order],
-        (intercept + slope * x)[order],
-        "--",
-        label="Линейный тренд"
-    )
+    plt.plot(x[order], (intercept + slope * x)[order], "--", label="Линейный тренд")
 
-    plt.title(
-        f"{import_data.iloc[i, 0]}\nr = {r:.2f}, p = {p:.4f}"
-    )
+    plt.title(f"{import_data.iloc[i, 0]}\nr = {r:.2f}, p = {p:.4f}")
     plt.xlabel("Импорт")
     plt.ylabel("Экспорт")
     plt.legend()
