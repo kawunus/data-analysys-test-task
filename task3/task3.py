@@ -79,8 +79,8 @@ for i, country in enumerate(data["Страна-партнёр"]):
     plt.annotate(country, (points[i, 0], points[i, 1]), fontsize=8)
 
 plt.title(f"Структура торговли Беларуси со странами-партнёрами")
-plt.xlabel("Компонента 1")
-plt.ylabel("Компонента 2")
+plt.xlabel("Ось 1 (PCA)")
+plt.ylabel("Ось 2 (PCA)")
 plt.legend()
 plt.grid(alpha=0.3)
 plt.tight_layout()
